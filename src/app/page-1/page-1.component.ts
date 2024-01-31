@@ -1,12 +1,14 @@
 import {Component, computed, effect, inject, Signal} from '@angular/core';
 import {DataService} from "../data.service";
 import {RouterLink} from "@angular/router";
+import {FooComponent} from "../foo/foo.component";
 
 @Component({
   selector: 'app-page-1',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    FooComponent
   ],
   templateUrl: './page-1.component.html',
   styleUrl: './page-1.component.scss'
@@ -16,6 +18,9 @@ export class Page1Component {
   #dataService = inject(DataService);
 
   #doubleValue: Signal<number>;
+
+  count = this.#dataService.count.asReadonly();
+  dblVal: Signal<number>;
 
   constructor() {
 
@@ -34,10 +39,13 @@ export class Page1Component {
       return this.#dataService.count() * 2;
     })
 
+    this.dblVal = this.#doubleValue;
+
 
     console.log('First DoubleValue console.log from page-1', this.#doubleValue());
     this.#dataService.count.update(current => current + 1);
     console.log('Second DoubleValue console.log from page-1', this.#doubleValue());
+
   }
 
   increase() {
