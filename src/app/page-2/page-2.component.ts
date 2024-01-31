@@ -5,7 +5,9 @@ import {DataService} from "../data.service";
   selector: 'app-page-2',
   standalone: true,
   imports: [],
-  templateUrl: './page-2.component.html',
+  template: `
+    <p>page-2 works!</p>
+  `,
   styleUrl: './page-2.component.scss'
 })
 export class Page2Component {

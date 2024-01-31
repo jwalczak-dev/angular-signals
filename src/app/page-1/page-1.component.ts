@@ -10,7 +10,15 @@ import {FooComponent} from "../foo/foo.component";
     RouterLink,
     FooComponent
   ],
-  templateUrl: './page-1.component.html',
+  template: `
+    <p>page-1 works!</p>
+    <button class="button" (click)="increase()">Increase count!</button>
+    <p>Count value: {{count()}}</p>
+    <p>1 Double count value: {{dblVal()}}</p>
+    <p>2 Double count value: {{dblVal()}}</p>
+    <p>3 Double count value: {{dblVal()}}</p>
+    <app-foo [value]="dblVal()"></app-foo>
+  `,
   styleUrl: './page-1.component.scss'
 })
 export class Page1Component {
