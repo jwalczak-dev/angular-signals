@@ -15,9 +15,7 @@ import {FooComponent} from "../foo/foo.component";
     <button class="button" (click)="increase()">Increase count!</button>
     <p>Count value: {{count()}}</p>
     <p>1 Double count value: {{dblVal()}}</p>
-    <p>2 Double count value: {{dblVal()}}</p>
-    <p>3 Double count value: {{dblVal()}}</p>
-    <app-foo [value]="dblVal()"></app-foo>
+    <app-foo [value]="dblVal()" [data]="fooData"></app-foo>
   `,
   styleUrl: './page-1.component.scss'
 })
@@ -30,12 +28,12 @@ export class Page1Component {
   count = this.#dataService.count.asReadonly();
   dblVal: Signal<number>;
 
+  fooData = '';
+
   constructor() {
 
     console.log('Page-1 component start');
 
-    this.#dataService.count.update(current => current + 1);
-    this.#dataService.count.update(current => current + 1);
     this.#dataService.count.update(current => current + 1);
 
     effect(() => {
@@ -60,5 +58,6 @@ export class Page1Component {
     this.#dataService.count.update(current => current + 1);
     console.log('Increase DoubleValue console.log from page-1', this.#doubleValue());
     console.log('Increase count console.log from page-1', this.#dataService.count());
+    this.fooData = 'fooData' + this.#dataService.count();
   }
 }

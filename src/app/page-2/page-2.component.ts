@@ -7,17 +7,20 @@ import {DataService} from "../data.service";
   imports: [],
   template: `
     <p>page-2 works!</p>
+    <p>Count: {{count()}}</p>
   `,
   styleUrl: './page-2.component.scss'
 })
 export class Page2Component {
 
-  #dataService = inject(DataService)
+  #dataService = inject(DataService);
+
+  count = this.#dataService.count;
 
   constructor() {
-    console.log('Page-2 component start');
+    // console.log('Page-2 component start');
 
-    this.#dataService.count.update(current => current + 1);
+    // this.#dataService.count.update(current => current + 1);
 
     effect(() => {
       console.log(`Effect from Page-2 component - count value ${this.#dataService.count()}`)
