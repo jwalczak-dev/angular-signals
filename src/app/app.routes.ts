@@ -6,6 +6,20 @@ import {Page2Component} from "./page-2/page-2.component";
 export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'page-1', component: Page1Component},
-  {path: 'page-2', component: Page2Component},
+  // {
+  //   path: 'page-1',
+  //   component: Page1Component
+  // },
+  // {
+  //   path: 'page-2',
+  //   component: Page2Component
+  // },
+  {
+    path: 'page-1',
+    loadComponent: () => import('./page-1/page-1.component').then(c => c.Page1Component)
+  },
+  {
+    path: 'page-2',
+    loadComponent: () => import('./page-2/page-2.component').then(c => c.Page2Component)
+  },
 ];
