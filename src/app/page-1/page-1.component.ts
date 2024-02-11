@@ -2,13 +2,15 @@ import {Component, computed, effect, inject, Signal} from '@angular/core';
 import {DataService} from "../data.service";
 import {RouterLink} from "@angular/router";
 import {FooComponent} from "../foo/foo.component";
+import {BarComponent} from "../bar/bar.component";
 
 @Component({
   selector: 'app-page-1',
   standalone: true,
   imports: [
     RouterLink,
-    FooComponent
+    FooComponent,
+    BarComponent
   ],
   template: `
     <p>page-1 works!</p>
@@ -16,6 +18,7 @@ import {FooComponent} from "../foo/foo.component";
     <p>Count value: {{count()}}</p>
     <p>1 Double count value: {{dblVal()}}</p>
     <app-foo [value]="dblVal()" [data]="fooData"></app-foo>
+    <app-bar></app-bar>
   `,
   styleUrl: './page-1.component.scss'
 })
