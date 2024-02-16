@@ -1,6 +1,19 @@
 import {Component, effect, signal} from '@angular/core';
 import {TodoComponent} from "../todo/todo.component";
 
+export type Todo = {
+  id: number,
+  title: string,
+  description: string,
+  status: TaskStatus
+}
+
+export enum TaskStatus {
+  TODO = 'todo',
+  IN_PROGRESS = 'inProgress',
+  DONE = 'done'
+}
+
 @Component({
   selector: 'app-page-3',
   standalone: true,
@@ -20,36 +33,36 @@ export class Page3Component {
       console.log('Name is:', this.name());
     })
 
-    const todos = [
+    const todos: Todo[] = [
       {
         id: 0,
         title: 'task1',
         description: 'Do shopping',
-        status: 'todo'
+        status: TaskStatus.TODO
       },
       {
         id: 1,
         title: 'task2',
         description: 'Clean room',
-        status: 'inProgress'
+        status: TaskStatus.IN_PROGRESS
       },
       {
         id: 2,
         title: 'task3',
         description: 'Make a diner',
-        status: 'inProgress'
+        status: TaskStatus.IN_PROGRESS
       },
       {
         id: 3,
         title: 'task4',
         description: 'Read a book',
-        status: 'inProgress'
+        status: TaskStatus.IN_PROGRESS
       },
       {
         id: 4,
         title: 'task5',
         description: 'Write a letter',
-        status: 'Done'
+        status: TaskStatus.DONE
       },
 
     ];

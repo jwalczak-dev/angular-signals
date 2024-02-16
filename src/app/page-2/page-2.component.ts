@@ -18,10 +18,6 @@ export class Page2Component {
   count = this.#dataService.count;
 
   constructor() {
-    // console.log('Page-2 component start');
-
-    // this.#dataService.count.update(current => current + 1);
-
     effect(() => {
       console.log(`Effect from Page-2 component - count value ${this.#dataService.count()}`)
     });
