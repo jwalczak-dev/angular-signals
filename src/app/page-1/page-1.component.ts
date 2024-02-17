@@ -17,6 +17,7 @@ import {BarComponent} from "../bar/bar.component";
     <button class="button" (click)="increase()">Increase count!</button>
     <p>Count value: {{count()}}</p>
     <p>1 Double count value: {{dblVal()}}</p>
+    <p>Price from effect: {{price}}</p>
     <app-foo [value]="dblVal()" [data]="fooData"></app-foo>
     <app-bar></app-bar>
   `,
@@ -32,6 +33,7 @@ export class Page1Component {
   dblVal: Signal<number>;
 
   fooData = '';
+  price: number | undefined;
 
   constructor() {
 
@@ -41,6 +43,7 @@ export class Page1Component {
 
     effect(() => {
       console.log(`Effect from Page-1 component - count value ${this.#dataService.count()}`);
+      this.price = this.#calculate(this.#dataService.count());
     });
 
     this.#doubleValue = computed(() => {
@@ -50,17 +53,14 @@ export class Page1Component {
 
     this.dblVal = this.#doubleValue;
 
+  }
 
-    console.log('First DoubleValue console.log from page-1', this.#doubleValue());
-    this.#dataService.count.update(current => current + 1);
-    console.log('Second DoubleValue console.log from page-1', this.#doubleValue());
-
+  #calculate(value: number): number {
+    return value + (value * 0.02);
   }
 
   increase() {
     this.#dataService.count.update(current => current + 1);
-    console.log('Increase DoubleValue console.log from page-1', this.#doubleValue());
-    console.log('Increase count console.log from page-1', this.#dataService.count());
     this.fooData = 'fooData' + this.#dataService.count();
   }
 }

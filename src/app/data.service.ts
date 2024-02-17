@@ -14,10 +14,8 @@ export class DataService {
     });
 
     const tripleValue = computed(() => {
-      console.log('TripleValue computed from data service');
       return this.count() * 3;
     })
-
-    console.log('TripleValue console.log from data-service', tripleValue());
+    console.log('TripleValue from data-service', tripleValue());
   }
 }
