@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, Signal} from '@angular/core';
+import {Component, computed, effect, ElementRef, inject, Signal, viewChild} from '@angular/core';
 import {DataService} from "../data.service";
 import {RouterLink} from "@angular/router";
 import {FooComponent} from "../foo/foo.component";
@@ -13,7 +13,7 @@ import {BarComponent} from "../bar/bar.component";
     BarComponent
   ],
   template: `
-    <p>page-1 works!</p>
+    <p #title>page-1 works!</p>
     <button class="button" (click)="increase()">Increase count!</button>
     <p>Count value: {{count()}}</p>
     <p>1 Double count value: {{dblVal()}}</p>
@@ -31,6 +31,8 @@ export class Page1Component {
 
   count = this.#dataService.count.asReadonly();
   dblVal: Signal<number>;
+
+  titleEl = viewChild.required<ElementRef>('title')
 
   fooData = '';
   price: number | undefined;
@@ -53,7 +55,13 @@ export class Page1Component {
 
     this.dblVal = this.#doubleValue;
 
+    effect(() => {
+      console.log(this.titleEl().nativeElement.innerHTML);
+    })
+
   }
+
+
 
   #calculate(value: number): number {
     return value + (value * 0.02);
