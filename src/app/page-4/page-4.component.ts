@@ -19,21 +19,43 @@ import {NgFor, NgIf} from "@angular/common";
       <p *ngFor="let book of uncleBobBooks()">{{book.name}}</p>
     </div>
 
+    <br/>
+    <br/>
+    <div *ngIf="selected()?.length">
+      <h3>Selected Books</h3>
+      <p *ngFor="let book of selected()">{{book.name}}</p>
+    </div>
+
   `,
   styleUrl: './page-4.component.scss'
 })
 export class Page4Component {
 
   books: WritableSignal<{id: number, name: string}[] | null> = signal(null)
-  basket = signal([{id: 66}, {id: 11}])
+  basket = signal([66, 11, 9])
 
   uncleBobBooks = computed(
     () => this.books()?.filter((book) => book.name.includes('Clean'))
   )
 
+  selected = computed(
+    () => {
+      return this.books()?.filter((book) => this.basket().includes(book.id))
+    }
+  )
+
   constructor() {
     this.#populateBooks();
     console.log(this.books())
+    console.log(this.basket()[0]);
+
+    setTimeout(() => {
+      this.basket.update(val => [...val, 3]);
+    }, 5000)
+
+    setTimeout(() => {
+      this.books?.update((val) => val ? [...val, {id: 9, name: 'Clean coder'}] : [{id: 9, name: 'Clean coder'}])
+    }, 10000)
 
   }
 
