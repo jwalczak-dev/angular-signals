@@ -1,4 +1,4 @@
-import {Component, computed, Signal, signal, WritableSignal} from '@angular/core';
+import {Component, computed, effect, Signal, signal, WritableSignal} from '@angular/core';
 import {NgFor, NgIf} from "@angular/common";
 
 export type Book = {
@@ -14,7 +14,7 @@ export type Book = {
     <p>page-4 works!</p>
     <br/>
     <div *ngIf="bookShelf()?.length">
-      <h3>Shelf</h3>
+      <h3>Bookshelf</h3>
       <p *ngFor="let book of bookShelf()">{{ book.name }}</p>
     </div>
 
@@ -28,7 +28,7 @@ export type Book = {
     <br/>
     <br/>
     <div *ngIf="selectedBooks()?.length">
-      <h3>Selected Books</h3>
+      <h3>Books in basket</h3>
       <p *ngFor="let book of selectedBooks()">{{ book.name }}</p>
     </div>
   `,
@@ -50,9 +50,7 @@ export class Page4Component {
   )
 
   constructor() {
-    this.#populateBooks();
-    console.log(this.bookShelf())
-    console.log(this.basket());
+    this.#populateBookshelf();
 
     setTimeout((): void => {
       this.basket.update((val: number[]) => [...val, 3]);
@@ -61,9 +59,19 @@ export class Page4Component {
     setTimeout((): void => {
       this.bookShelf?.update((val: Book[] | null): Book[] => val ? [...val, {id: 9, name: 'Clean coder'}] : [{id: 9, name: 'Clean coder'}])
     }, 5000);
+
+    effect((): void => {
+      this.#consoleLogBookshelf(this.bookShelf());
+      console.log('Basket: ', this.basket());
+    })
   }
 
-  #populateBooks(): void {
+  #consoleLogBookshelf(books: Book[] | null): void {
+    console.log(`Bookshelf`);
+    console.table(books);
+  }
+
+  #populateBookshelf(): void {
     this.bookShelf.set([
       {id: 3, name: 'Clean code'},
       {id: 5, name: 'Clean architecture'},
