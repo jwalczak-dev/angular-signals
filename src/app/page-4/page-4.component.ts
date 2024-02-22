@@ -1,9 +1,9 @@
-import {Component, computed, signal, WritableSignal} from '@angular/core';
+import {Component, computed, Signal, signal, WritableSignal} from '@angular/core';
 import {NgFor, NgIf} from "@angular/common";
 
 export type Book = {
   id: number;
-  name: string
+  name: string;
 }
 
 @Component({
@@ -12,6 +12,7 @@ export type Book = {
   imports: [NgFor, NgIf],
   template: `
     <p>page-4 works!</p>
+    <br/>
     <div *ngIf="bookShelf()?.length">
       <h3>Shelf</h3>
       <p *ngFor="let book of bookShelf()">{{ book.name }}</p>
@@ -26,45 +27,43 @@ export type Book = {
 
     <br/>
     <br/>
-    <div *ngIf="selected()?.length">
+    <div *ngIf="selectedBooks()?.length">
       <h3>Selected Books</h3>
-      <p *ngFor="let book of selected()">{{ book.name }}</p>
+      <p *ngFor="let book of selectedBooks()">{{ book.name }}</p>
     </div>
-
   `,
   styleUrl: './page-4.component.scss'
 })
 export class Page4Component {
 
   bookShelf: WritableSignal<Book[] | null> = signal(null)
-  basket = signal([66, 11, 9])
+  basket: WritableSignal<number[]> = signal([66, 11, 9])
 
-  uncleBobBooks = computed(
-    () => this.bookShelf()?.filter((book) => book.name.includes('Clean'))
+  uncleBobBooks: Signal<Book[] | undefined> = computed(
+    () => this.bookShelf()?.filter((book: Book) => book.name.includes('Clean'))
   )
 
-  selected = computed(
+  selectedBooks: Signal<Book[] | undefined> = computed(
     () => {
-      return this.bookShelf()?.filter((book) => this.basket().includes(book.id))
+      return this.bookShelf()?.filter((book: Book) => this.basket().includes(book.id))
     }
   )
 
   constructor() {
     this.#populateBooks();
     console.log(this.bookShelf())
-    console.log(this.basket()[0]);
+    console.log(this.basket());
 
-    setTimeout(() => {
-      this.basket.update(val => [...val, 3]);
-    }, 5000)
+    setTimeout((): void => {
+      this.basket.update((val: number[]) => [...val, 3]);
+    }, 2500);
 
-    setTimeout(() => {
-      this.bookShelf?.update((val) => val ? [...val, {id: 9, name: 'Clean coder'}] : [{id: 9, name: 'Clean coder'}])
-    }, 10000)
-
+    setTimeout((): void => {
+      this.bookShelf?.update((val: Book[] | null): Book[] => val ? [...val, {id: 9, name: 'Clean coder'}] : [{id: 9, name: 'Clean coder'}])
+    }, 5000);
   }
 
-  #populateBooks() {
+  #populateBooks(): void {
     this.bookShelf.set([
       {id: 3, name: 'Clean code'},
       {id: 5, name: 'Clean architecture'},
@@ -73,5 +72,4 @@ export class Page4Component {
       {id: 8, name: 'Refactoring JavaScript'},
     ])
   }
-
 }
