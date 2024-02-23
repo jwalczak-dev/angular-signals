@@ -62,13 +62,21 @@ export class Page4Component {
 
     effect((): void => {
       this.#consoleLogBookshelf(this.bookShelf());
-      console.log('Basket: ', this.basket());
+    })
+
+    effect((): void => {
+      this.#consoleLogBasket(this.basket());
     })
   }
 
   #consoleLogBookshelf(books: Book[] | null): void {
     console.log(`Bookshelf`);
-    console.table(books);
+    console.log(books);
+  }
+
+  #consoleLogBasket(basket: number[]): void {
+    console.log(`Basket`);
+    console.log(basket);
   }
 
   #populateBookshelf(): void {
